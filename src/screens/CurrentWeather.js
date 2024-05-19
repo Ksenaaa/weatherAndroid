@@ -1,11 +1,29 @@
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Feather } from "@expo/vector-icons";
 
+import { weatherType } from "../utilities/weatherType";
+import { useGetWeather } from "../hooks/useGetWeather";
+import { Loading } from "../components/Loading";
+
 export const CurrentWeather = () => {
+    const { loading, weather, error } = useGetWeather();
+
+    if (loading) return <Loading />;
+    if (error)
+        return (
+            <View>
+                <Text>{error}</Text>
+            </View>
+        );
+
     return (
         <SafeAreaView style={styles.wrapper}>
             <View style={styles.container}>
-                <Feather name="sun" size={100} color="black" />
+                <Feather
+                    name={weatherType["Thunderstorm"].icon}
+                    size={100}
+                    color={weatherType["Thunderstorm"].backgroundColor}
+                />
                 <Text style={styles.temp}>6</Text>
                 <Text style={styles.feels}>Feels like 5</Text>
                 <View style={styles.highLowWrapper}>
@@ -15,7 +33,9 @@ export const CurrentWeather = () => {
             </View>
             <View style={styles.bodyWrapper}>
                 <Text style={styles.description}>Its sunny</Text>
-                <Text style={styles.message}>Its perfect t-shirt weather</Text>
+                <Text style={styles.message}>
+                    {weatherType["Thunderstorm"].message}
+                </Text>
             </View>
         </SafeAreaView>
     );
@@ -24,7 +44,7 @@ export const CurrentWeather = () => {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: "orange",
+        backgroundColor: "#F5EE9E",
     },
     container: {
         flex: 1,
