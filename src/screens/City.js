@@ -5,15 +5,12 @@ import {
     Text,
     View,
 } from "react-native";
+import moment from "moment";
 
 import { IconText } from "../components/IconText";
-import { useGetWeather } from "../hooks/useGetWeather";
-import { Loading } from "../components/Loading";
 
-export const City = () => {
-    const { loading, city } = useGetWeather();
-
-    if (loading) return <Loading />;
+export const City = ({ weatherData }) => {
+    const { name, country, population, sunrise, sunset } = weatherData;
 
     return (
         <SafeAreaView style={styles.wrapper}>
@@ -21,15 +18,13 @@ export const City = () => {
                 style={styles.image}
                 source={require("../../assets/city-background.jpg")}
             >
-                <Text style={[styles.cityText, styles.cityName]}>
-                    {city?.name}
-                </Text>
+                <Text style={[styles.cityText, styles.cityName]}>{name}</Text>
                 <Text style={[styles.cityText, styles.countryName]}>
-                    {city?.country}
+                    {country}
                 </Text>
                 <View style={styles.populationWrapper}>
                     <IconText
-                        bodyText={"8000"}
+                        bodyText={`Population: ${population}`}
                         bodyTextStyles={styles.populationText}
                         iconColor={"red"}
                         iconName={"user"}
@@ -37,14 +32,14 @@ export const City = () => {
                 </View>
                 <View style={styles.riseSetWrapper}>
                     <IconText
-                        bodyText={"10:46:50am"}
+                        bodyText={moment(sunrise).format("h:mm:ss a")}
                         bodyTextStyles={styles.riseSetText}
                         iconColor={"white"}
                         iconName={"sunrise"}
                     />
 
                     <IconText
-                        bodyText={"17:23:43pm"}
+                        bodyText={moment(sunset).format("h:mm:ss a")}
                         bodyTextStyles={styles.riseSetText}
                         iconColor={"white"}
                         iconName={"sunset"}
