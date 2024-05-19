@@ -5,16 +5,28 @@ import {
     Text,
     View,
 } from "react-native";
+
 import { IconText } from "../components/IconText";
+import { useGetWeather } from "../hooks/useGetWeather";
+import { Loading } from "../components/Loading";
+
 export const City = () => {
+    const { loading, city } = useGetWeather();
+
+    if (loading) return <Loading />;
+
     return (
         <SafeAreaView style={styles.wrapper}>
             <ImageBackground
                 style={styles.image}
                 source={require("../../assets/city-background.jpg")}
             >
-                <Text style={[styles.cityText, styles.cityName]}>London</Text>
-                <Text style={[styles.cityText, styles.countryName]}>UK</Text>
+                <Text style={[styles.cityText, styles.cityName]}>
+                    {city?.name}
+                </Text>
+                <Text style={[styles.cityText, styles.countryName]}>
+                    {city?.country}
+                </Text>
                 <View style={styles.populationWrapper}>
                     <IconText
                         bodyText={"8000"}
@@ -46,7 +58,6 @@ export const City = () => {
 const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
-        backgroundColor: "orange",
     },
     image: {
         flex: 1,

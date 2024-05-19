@@ -13,5 +13,7 @@ module.exports = {
         },
     },
     plugins: ["react", "react-native"],
-    rules: {},
+    rules: {
+        "no-unused-vars": ["warning"],
+    },
 };
