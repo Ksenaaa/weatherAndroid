@@ -11,15 +11,19 @@ export async function get(path) {
 }
 
 async function fetchService(request) {
-    const response = await fetch(request);
+    try {
+        const response = await fetch(request);
 
-    if (!response.ok) {
-        throw new Error(
-            `Request failed: ${response.status} ${response.statusText}`
-        );
+        if (!response.ok) {
+            throw new Error(
+                `Request failed: ${response.status} ${response.statusText}`
+            );
+        }
+
+        const result = await response.json();
+
+        return result;
+    } catch (error) {
+        return result.ok;
     }
-
-    const result = await response.json();
-
-    return result;
 }
